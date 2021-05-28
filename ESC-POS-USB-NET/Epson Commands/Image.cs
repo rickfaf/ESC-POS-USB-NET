@@ -13,10 +13,12 @@ namespace ESC_POS_USB_NET.EpsonCommands
   
                 var threshold = 127;
                 var index = 0;
-                double multiplier = 576; // this depends on your printer model.
-                double scale = (double)(multiplier / (double)bmp.Width);
-                int xheight = (int)(bmp.Height * scale);
-                int xwidth = (int)(bmp.Width * scale);
+                //double multiplier = 576; // this depends on your printer model.
+                //double scale = (double)(multiplier / (double)bmp.Width);
+                //int xheight = (int)(bmp.Height * scale);
+                //int xwidth = (int)(bmp.Width * scale);
+                int xheight = (int)(bmp.Height);
+                int xwidth = (int)(bmp.Width);
                 var dimensions = xwidth * xheight;
                 var dots = new BitArray(dimensions);
 
@@ -24,8 +26,10 @@ namespace ESC_POS_USB_NET.EpsonCommands
                 {
                     for (var x = 0; x < xwidth; x++)
                     {
-                        var _x = (int)(x / scale);
-                        var _y = (int)(y / scale);
+                        //var _x = (int)(x / scale);
+                        //var _y = (int)(y / scale);
+                        var _x = (int)(x);
+                        var _y = (int)(y);
                         var color = bmp.GetPixel(_x, _y);
                         var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
                         dots[index] = (luminance < threshold);
@@ -36,8 +40,10 @@ namespace ESC_POS_USB_NET.EpsonCommands
                 return new BitmapData()
                 {
                     Dots = dots,
-                    Height = (int)(bmp.Height * scale),
-                    Width = (int)(bmp.Width * scale)
+                    //Height = (int)(bmp.Height * scale),
+                    //Width = (int)(bmp.Width * scale)
+                    Height = (int)(bmp.Height),
+                    Width = (int)(bmp.Width)
                 };
        
         }

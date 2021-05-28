@@ -27,7 +27,7 @@ namespace ESC_POS_USB_NET_DEMO
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Printer printer = new Printer(txtPrinterName.Text);
-            Bitmap image =new Bitmap ( Bitmap.FromFile("Icon.bmp"));
+            Bitmap image =new Bitmap ( Bitmap.FromFile("Icon2.bmp"));
             printer.Image(image);
             printer.FullPaperCut();
             printer.PrintDocument();
