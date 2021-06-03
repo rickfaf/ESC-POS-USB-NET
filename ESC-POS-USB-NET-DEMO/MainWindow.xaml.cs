@@ -28,8 +28,11 @@ namespace ESC_POS_USB_NET_DEMO
         {
             Printer printer = new Printer(printerName: txtPrinterName.Text);
             Bitmap image = new Bitmap(Image.FromFile("Icon.bmp"));
-            //Bitmap image = new Bitmap(Image.FromFile("Icon2.bmp"));
             printer.Image(image);
+
+            //Printer printer = new Printer(printerName: txtPrinterName.Text, paperWidth: 32);
+            //Bitmap image = new Bitmap(Image.FromFile("test.png"));
+            //printer.Image(image, false);
 
             printer.FullPaperCut();
             printer.PrintDocument();

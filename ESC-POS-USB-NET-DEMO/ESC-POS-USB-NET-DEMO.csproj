@@ -121,6 +121,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="test.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -24,9 +24,9 @@ namespace ESC_POS_USB_NET.EpsonCommands
                
             }
 
-            xwidth = (int)(bmp.Height * scale);
-            xheight = (int)(bmp.Width * scale);
-           
+            xwidth = (int)(bmp.Width * scale);
+            xheight = (int)(bmp.Height * scale);
+
             int dimensions = xwidth * xheight;
             BitArray dots = new BitArray(dimensions);
 
