@@ -26,9 +26,24 @@ namespace ESC_POS_USB_NET_DEMO
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Printer printer = new Printer(txtPrinterName.Text);
-            Bitmap image =new Bitmap ( Bitmap.FromFile("Icon2.bmp"));
+            Printer printer = new Printer(printerName: txtPrinterName.Text);
+            Bitmap image = new Bitmap(Image.FromFile("Icon.bmp"));
+            //Bitmap image = new Bitmap(Image.FromFile("Icon2.bmp"));
             printer.Image(image);
+
+            printer.FullPaperCut();
+            printer.PrintDocument();
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            Printer printer = new Printer(printerName: txtPrinterName.Text, paperWidth: 32);
+
+            printer.BoldMode(PrinterModeState.On);
+            printer.AppendLeftRight("Space", "Between");
+            printer.BoldMode(PrinterModeState.On);
+            printer.Separator('-');
+
             printer.FullPaperCut();
             printer.PrintDocument();
         }

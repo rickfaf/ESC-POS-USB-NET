@@ -17,11 +17,13 @@ namespace ESC_POS_USB_NET.Printer
         private readonly string _printerName;
         private readonly IPrintCommand _command;
         private readonly string _codepage;
-        public Printer(string printerName, string codepage= "IBM860")
+        private readonly int _paperWidth;
+        public Printer(string printerName, string codepage = "IBM860", int paperWidth = 48)
         {
             _printerName = string.IsNullOrEmpty(printerName) ? "escpos.prn" : printerName.Trim();
             _command = new EscPos();
             _codepage = codepage;
+            _paperWidth = paperWidth;
         }
 
         public int ColsNomal
@@ -109,7 +111,7 @@ namespace ESC_POS_USB_NET.Printer
 
         public void Separator(char speratorChar = '-')
         {
-            Append(_command.Separator(speratorChar ));
+            Append(_command.Separator(speratorChar, _paperWidth));
         }
 
         public void AutoTest()
@@ -244,6 +246,11 @@ namespace ESC_POS_USB_NET.Printer
             Append(_command.Alignment.Center());
         }
 
+        public void AppendLeftRight(string left, string right)
+        {
+            Append(left.PadRight(_paperWidth - right.Length) + right);
+        }
+
         public void FullPaperCut()
         {
             Append(_command.PaperCut.Full());
@@ -289,9 +296,9 @@ namespace ESC_POS_USB_NET.Printer
             RawPrinterHelper.SendBytesToPrinter(_printerName, _command.InitializePrint.Initialize());
         }
 
-        public void Image(Bitmap image)
+        public void Image(Bitmap image, bool isScale = true)
         {
-            Append(_command.Image.Print(image));
+            Append(_command.Image.Print(image, isScale));
         }
         public void NormalLineHeight()
         {

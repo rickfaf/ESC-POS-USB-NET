@@ -19,6 +19,7 @@ namespace ESC_POS_USB_NET.EpsonCommands
         public ILineHeight  LineHeight { get; set; }
         public int ColsNomal => 48;
         public int ColsCondensed => 64;
+        public int ColsCondensedForPaper32 => 42;
         public int ColsExpanded => 24;        
 
         public EscPos()
@@ -35,10 +36,17 @@ namespace ESC_POS_USB_NET.EpsonCommands
             InitializePrint = new InitializePrint();
         }
 
-        public byte[] Separator(char speratorChar= '-')
+        public byte[] Separator(char speratorChar = '-', int paperWidth = 48)
         {
+            // Make this to adapt separator to small paper size 50mm
+            int colsCondensed = ColsCondensed;
+            if (paperWidth == 32)
+            {
+                colsCondensed = ColsCondensedForPaper32;
+            }
+
             return FontMode.Condensed(PrinterModeState.On)
-                .AddBytes(new string(speratorChar, ColsCondensed))
+                .AddBytes(new string(speratorChar, colsCondensed))
                 .AddBytes(FontMode.Condensed(PrinterModeState.Off))
                 .AddCrLF();
         }

@@ -8,49 +8,53 @@ namespace ESC_POS_USB_NET.EpsonCommands
 {
     public class Image : IImage
     {
-        private static BitmapData GetBitmapData(Bitmap bmp)
+        private static BitmapData GetBitmapData(Bitmap bmp, bool isScale)
         {
-  
-                var threshold = 127;
-                var index = 0;
-                //double multiplier = 576; // this depends on your printer model.
-                //double scale = (double)(multiplier / (double)bmp.Width);
-                //int xheight = (int)(bmp.Height * scale);
-                //int xwidth = (int)(bmp.Width * scale);
-                int xheight = (int)(bmp.Height);
-                int xwidth = (int)(bmp.Width);
-                var dimensions = xwidth * xheight;
-                var dots = new BitArray(dimensions);
+            int threshold = 127;
+            int index = 0;
+            int xheight;
+            int xwidth;
+            double scale = 1;
 
-                for (var y = 0; y < xheight; y++)
+            // Set isScale to false to control image positioning.
+            if (isScale)
+            {
+                double multiplier = 576; // this depends on your printer model.
+                scale = (double)(multiplier / bmp.Width);
+               
+            }
+
+            xwidth = (int)(bmp.Height * scale);
+            xheight = (int)(bmp.Width * scale);
+           
+            int dimensions = xwidth * xheight;
+            BitArray dots = new BitArray(dimensions);
+
+            for (int y = 0; y < xheight; y++)
+            {
+                for (int x = 0; x < xwidth; x++)
                 {
-                    for (var x = 0; x < xwidth; x++)
-                    {
-                        //var _x = (int)(x / scale);
-                        //var _y = (int)(y / scale);
-                        var _x = (int)(x);
-                        var _y = (int)(y);
-                        var color = bmp.GetPixel(_x, _y);
-                        var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
-                        dots[index] = (luminance < threshold);
-                        index++;
-                    }
+                    int _x = (int)(x / scale);
+                    int _y = (int)(y / scale);
+                    Color color = bmp.GetPixel(_x, _y);
+                    int luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                    dots[index] = luminance < threshold;
+                    index++;
                 }
+            }
 
-                return new BitmapData()
-                {
-                    Dots = dots,
-                    //Height = (int)(bmp.Height * scale),
-                    //Width = (int)(bmp.Width * scale)
-                    Height = (int)(bmp.Height),
-                    Width = (int)(bmp.Width)
-                };
-       
+            return new BitmapData()
+            {
+                Dots = dots,
+                Height = (int)(bmp.Height * scale),
+                Width = (int)(bmp.Width * scale)
+            };
+
         }
 
-        byte[] IImage.Print(Bitmap image)
+        byte[] IImage.Print(Bitmap image, bool isScale)
         {
-            var data = GetBitmapData(image);
+            var data = GetBitmapData(image, isScale);
             BitArray dots = data.Dots;
             byte[] width = BitConverter.GetBytes(data.Width);
 
