@@ -20,7 +20,13 @@ ESC-POS-USB-NET is a free and open source .NET (C#) Implementation of the Epson 
 - **Focus on your business logic**. With ESC-POS-USB-NET, you should focus on your business logic. we do the printing logic.
 - **Customizable**. You can quickly build your logic by fully customizing the code to fit your needs perfectly.
 
+This is a fork of [mtmsuhail/ESC-POS-USB-NET](https://github.com/mtmsuhail/ESC-POS-USB-NET) with this additions:
 
+- add optional `scale` param for `Image()` 
+
+- adapt separator for small paper size (32)
+
+- add `spaceBetween` option
 
 ## Getting Started
 
